@@ -42,7 +42,10 @@ export default function HomePage() {
   const [bannerImages, setBannerImages] = React.useState([]);
   const [currentBanner, setCurrentBanner] = React.useState(0);
   React.useEffect(() => {
-  axios.get('/api/banner-images').then(res => setBannerImages(res.data.map(img => img.url)));
+    const backendUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/$/, '');
+    axios.get('/api/banner-images').then(res => {
+      setBannerImages(res.data.map(img => backendUrl + img.url));
+    });
   }, []);
   React.useEffect(() => {
     if (bannerImages.length === 0) return;
